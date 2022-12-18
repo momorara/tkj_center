@@ -27,7 +27,8 @@ with open('sub_flag.txt', mode='w') as f: #上書き
     f.write("sub_humdy")
 
 
-
+with open('humdy.txt', mode='w') as f: #上書き
+        f.write('99')
 
 
 print('sub start')
