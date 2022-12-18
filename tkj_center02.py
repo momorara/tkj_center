@@ -20,7 +20,7 @@ if not os.path.exists('sub_flag.txt'):
     prog = 'python3 ' + 'sub_humedy.py'
     subprocess.Popen(prog, shell=True)
  
-time.sleep(5)
+
 
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
@@ -83,6 +83,8 @@ def input():
 
 def main():
 
+    st.title('TKJ center')
+    time.sleep(5)
     st.title('TKJ center')
 
     # ラズパイからのメッセージをsub_**で受けてファイルを作っているので、
