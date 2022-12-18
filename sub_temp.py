@@ -28,6 +28,8 @@ topic = "testmqtt/aircon/temp003"
 with open('sub_flag.txt', mode='w') as f: #上書き
     f.write('run')
 
+with open('temp.txt', mode='w') as f: #上書き
+        f.write('OKOKOK')
 
 print('sub start')
 
