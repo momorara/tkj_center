@@ -84,6 +84,8 @@ def input():
 def main():
 
     st.title('TKJ center')
+    with open('humdy.txt', mode='w') as f: #上書き
+        f.write('99')
     time.sleep(5)
     st.title('TKJ center')
 
