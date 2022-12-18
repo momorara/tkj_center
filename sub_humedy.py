@@ -13,7 +13,7 @@ sudo pip3 install paho-mqtt
 import subprocess
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 import os
-
+import time
 
 # ブローカー
 #broker = 'mqtt.eclipseprojects.io'
@@ -22,14 +22,9 @@ broker  = 'broker.emqx.io'
 # 受診するトピック
 topic = "dehumdy/humdy"
 
-# 起動の印を作る
+# 起動の印を書く
 with open('sub_flag.txt', mode='w') as f: #上書き
-    f.write("sub_humdy")
-
-
-with open('humdy.txt', mode='w') as f: #上書き
-        f.write('99')
-
+    f.write('run')
 
 print('sub start')
 
@@ -66,6 +61,9 @@ client.on_message = on_message         # メッセージ到着時のコールバ
 client.connect(broker, 1883, 60)       # 接続先は自分自身
 client.loop_start()                  # ループスタート
 while True:
-    if not os.path.exists('sub_flag.txt'):
+    with open('sub_flag.txt') as f:
+        sub_flag = f.read()
+    time.sleep(0.1)
+    if sub_flag == 'stop':
         print("END!")
         break
