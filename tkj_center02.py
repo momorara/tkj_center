@@ -14,11 +14,11 @@ import time
 
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
-if not os.path.exists('sub_flag.txt'):
-    prog = 'python3 ' + 'sub_temp.py'
-    subprocess.Popen(prog, shell=True)
-    prog = 'python3 ' + 'sub_humedy.py'
-    subprocess.Popen(prog, shell=True)
+# if not os.path.exists('sub_flag.txt'):
+#     prog = 'python3 ' + 'sub_temp.py'
+#     subprocess.Popen(prog, shell=True)
+#     prog = 'python3 ' + 'sub_humedy.py'
+#     subprocess.Popen(prog, shell=True)
  
 
 
@@ -84,21 +84,23 @@ def input():
 def main():
 
     st.title('TKJ center')
-    with open('humdy.txt', mode='w') as f: #上書き
-        f.write('99')
-    time.sleep(5)
-    st.title('TKJ center')
+    # with open('humdy.txt', mode='w') as f: #上書き
+    #     f.write('99')
+    # time.sleep(5)
+    # st.title('TKJ center')
 
     # ラズパイからのメッセージをsub_**で受けてファイルを作っているので、
     # そのデータを表示する。
-    temp,humdy = 'null','null'
     try:
         with open('temp.txt') as f:
             temp = f.read()
+    except:
+        temp = 'null'
+    try:
         with open('humdy.txt') as f:
             humdy = f.read()
     except:
-        pass
+        humdy = 'null'
 
     st.write("温度:",temp," / 湿度:",humdy)
 
