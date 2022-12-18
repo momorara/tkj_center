@@ -10,6 +10,7 @@ import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
 import os
 import subprocess
+import time
 
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
@@ -19,6 +20,8 @@ if not os.path.exists('sub_flag.txt'):
     prog = 'python3 ' + 'sub_humedy.py'
     subprocess.Popen(prog, shell=True)
  
+time.sleep(5)
+
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
 def on_connect(client, userdata, flag, rc):
