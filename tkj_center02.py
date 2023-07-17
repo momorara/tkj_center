@@ -111,8 +111,8 @@ def main():
 
     st.write("温度:",temp," / 湿度:",humdy)
 
-    air_on,air_off,defumdy,date1,date2 = input()
-    st.write(air_on,air_off,defumdy)
+    air_on_izumo,air_off,defumdy,date1,date2 = input()
+    st.write(air_on_izumo,air_off,defumdy)
 
     # 入力した日付からpin_codeを作ります。
     date1_str = date1.strftime('%Y-%m-%d')[-2:]
@@ -120,7 +120,7 @@ def main():
     pin_code = date1_str + date2_str
 
     # 押されたボタンによって、publish内容を変える。
-    if air_on == True :
+    if air_on_izumo == True :
         mes = "aircon/Operation_command/air_on"
     if air_off == True :
         mes = "aircon/Operation_command/air_off"
@@ -128,7 +128,7 @@ def main():
         mes = "dehumdy/Operation_command"
 
     # 一つでもボタンが押されていることが送信の条件
-    if air_on == True or air_off == True or defumdy == True:
+    if air_on_izumo == True or air_off == True or defumdy == True:
         # ピンコードをmqttでpublishする
         # st.write('publish',pin_code,mes)
         st.write('publish',mes)
