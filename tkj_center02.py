@@ -3,7 +3,7 @@
             このプログラムはブラウザをリロードするたびに起動します。
 2022/12/18  温度湿度のファィルを読んで表示
             sub_humedy,tempを起動 1つだけ起動するように工夫する
-2023/07/17  aozuのために
+2023/07/17  sozuのためにぼたんを追加、offはizumoと共用
 """
 
 import streamlit as st
@@ -82,10 +82,11 @@ def input():
     date2 = st.date_input('Input date2')
     
     #print('pin_code',pin_code)
-    air_on  = st.button('エアコンON @ izumo')
+    air_on_izumo  = st.button('エアコンON @ izumo')
     air_off = st.button('エアコンOFF')
+    air_on_sozu  = st.button('エアコンON @ sozu')
     defumdy = st.button('除湿器ON/OFF')
-    return air_on,air_off,defumdy,date1,date2
+    return air_on_izumo,air_off,defumdy,date1,date2
 
 def main():
 
