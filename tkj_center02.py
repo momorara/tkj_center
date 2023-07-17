@@ -125,7 +125,7 @@ def main():
     if air_off == True :
         mes = "aircon/Operation_command/air_off"
     if air_on_sozu == True :
-        mes = "aircon/Operation_command/air_on_sozu"
+        mes = "aircon/Operation_command/air_sozu_on"
     if defumdy == True :
         mes = "dehumdy/Operation_command"
 
