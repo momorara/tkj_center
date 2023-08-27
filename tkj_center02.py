@@ -4,6 +4,7 @@
 2022/12/18  温度湿度のファィルを読んで表示
             sub_humedy,tempを起動 1つだけ起動するように工夫する
 2023/07/17  sozuのためにボタンを追加、offはizumoと共用
+2023/08/28  ハッキングが疑われるので、アドレスを変更
 """
 
 import streamlit as st
@@ -123,7 +124,8 @@ def main():
     if air_off == True :
         mes = "aircon/Operation_command/air_off"
     if air_on_sozu == True :
-        mes = "aircon/Operation_command/air_sozu_on" # air_on_sozuではダメみたい
+        mes = "aircon/Operation_command/sozu_air_on"   # air_on_sozuではダメみたい
+                                                       # ハッキング対策でアドレス変更 旧:air_sozu_on     
     if defumdy == True :
         mes = "dehumdy/Operation_command"
 
