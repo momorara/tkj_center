@@ -123,7 +123,7 @@ def main():
     # ダミーアドレスに投げる
     if air_on_sozu == True :
         dummy_mes = "aircon/Operation_command/air_sozu_on"   
-        mqtt_broker_set(pin_code,mes)
+        mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
 
 
