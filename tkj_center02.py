@@ -6,6 +6,7 @@
 2023/07/17  sozuのためにボタンを追加、offはizumoと共用
 2023/08/28  ハッキングが疑われるので、アドレスを変更
             変更したことを悟られないように旧アドレスにも投げる
+2023/08/30  コマンドにTestをつける
 """
 
 import streamlit as st
@@ -121,20 +122,26 @@ def main():
 
 
     # ダミーアドレスに投げる
+    if air_on_izumo == True :
+        dummy_mes = "aircon/Operation_command/air_on"   
+        mqtt_broker_set(pin_code,dummy_mes)
+        sleep(1)
+    if air_off == True :
+        dummy_mes = "aircon/Operation_command/air_off"   
+        mqtt_broker_set(pin_code,dummy_mes)
+        sleep(1)
     if air_on_sozu == True :
         dummy_mes = "aircon/Operation_command/air_sozu_on"   
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
-
-
             
     # 押されたボタンによって、publish内容を変える。
     if air_on_izumo == True :
-        mes = "aircon/Operation_command/air_on"
+        mes = "airconTest/commandTest/air_onTest"
     if air_off == True :
-        mes = "aircon/Operation_command/air_off"
+        mes = "airconTest/commandTest/air_offTest"
     if air_on_sozu == True :
-        mes = "aircon/Operation_command/sozu_air_on"   # air_on_sozuではダメみたい
+        mes = "airconTest/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
                                                        # ハッキング対策でアドレス変更 旧:air_sozu_on     
     if defumdy == True :
         mes = "dehumdy/Operation_command"
