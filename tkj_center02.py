@@ -124,7 +124,7 @@ def main():
     hour = current_datetime.hour
     # passCode = month*100 + day
     passCode = hour*100 + day
-    pin_code = str(passCord)
+    pin_code = str(passCode)
 
     # passCodeを一桁ごとの数字に分解
     mm = int(passCode/100)
