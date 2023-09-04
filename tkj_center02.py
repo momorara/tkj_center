@@ -10,6 +10,7 @@
 2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
             passCodeは月日としようとしたが、一日同じなので、
             # 時間　日にした
+            ただし、ラズパイ上では日時は合っているが、streamit上では、9時間ずれているので注意
 """
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
@@ -20,6 +21,7 @@ import time
 import random
 import string
 import datetime
+import pytz
 
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
@@ -119,13 +121,25 @@ def main():
     # 例: 長さが20のランダムな文字列を生成
     random_string = generate_random_string(30)
     UTC_OFFSET = 9 * 60 * 60
-    current_datetime = datetime.datetime.now()+ UTC_OFFSET
+    current_datetime = datetime.datetime.now()
     month = current_datetime.month
     day = current_datetime.day
     hour = current_datetime.hour
     # passCode = month*100 + day
     passCode = hour*100 + day
-    pin_code = str(passCode)
+
+    # UTC時間を取得
+    current_datetime_utc = datetime.datetime.now(pytz.utc)
+    # 日本標準時（JST）に変換
+    jst_timezone = pytz.timezone('Asia/Tokyo')
+    current_datetime_jst = current_datetime_utc.astimezone(jst_timezone)
+    # 必要な情報を取得
+    month = current_datetime_jst.month
+    day = current_datetime_jst.day
+    hour = current_datetime_jst.hour
+    # パスコードを計算
+    passCode = hour * 100 + day
+            
 
     # passCodeを一桁ごとの数字に分解
     mm = int(passCode/100)
