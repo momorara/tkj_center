@@ -139,7 +139,7 @@ def main():
     hour = current_datetime_jst.hour
     # パスコードを計算
     passCode = hour * 100 + day
-            
+    pin_code = str(passCode)
 
     # passCodeを一桁ごとの数字に分解
     mm = int(passCode/100)
