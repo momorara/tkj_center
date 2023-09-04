@@ -15,6 +15,9 @@ from time import sleep              # 3秒間のウェイトのために使う
 import os
 import subprocess
 import time
+import random
+import string
+import datetime
 
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
@@ -89,8 +92,51 @@ def input():
     defumdy = st.button('除湿器ON/OFF')
     return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
 
-def main():
+def generate_random_string(length):
+    # 現在の日付と時刻を取得
+    current_datetime = datetime.datetime.now()
+    # 年、月、日、時、分、秒を取得
+    day = current_datetime.day
+    minute = current_datetime.minute
+    second = current_datetime.second
+    # 年、月、日、時、分、秒を文字列に変換し、結合して種(seed)とする
+    seed = f"{day}-{minute}-{second}"
+    # 乱数生成器に種(seed)を設定
+    random.seed(seed)
+    # 半角アルファベット（大文字と小文字）を含む文字列を作成
+    characters = string.ascii_letters
+    random_string = ""
+    # 指定された長さまでループを実行
+    for _ in range(length):
+        # 半角アルファベットからランダムに文字を選び、それをrandom_stringに追加
+        random_character = random.choice(characters)
+        random_string += random_character
+    return random_string
 
+def main():
+    # 例: 長さが20のランダムな文字列を生成
+    random_string = generate_random_string(30)
+    current_datetime = datetime.datetime.now()
+    month = current_datetime.month
+    day = current_datetime.day
+    passCode = month*100 + day
+
+    # passCodeを一桁ごとの数字に分解
+    mm = int(passCode/100)
+    d1 = int((passCode - mm*100)/10)
+    d2 = passCode - mm*100 - d1*10
+    #
+    henkan = "abcdefghijklmnopqrstuvwxyz"
+    henkan = "gpjabcdefkqwxyzrlmstuvhino"
+    mm_s = henkan[mm]
+    d1_s = henkan[d1+10] # 全体を使うように
+    d2_s = henkan[d2+7]  # 全体を使うように
+    # ランダム文字に埋め込む
+    modified_string = (
+    random_string[:3] + mm_s + random_string[5:7] +
+    d1_s + random_string[9:11] + d2_s + random_string[13:]
+    )
+            
     st.title('TKJ center v02')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
@@ -151,7 +197,8 @@ def main():
         # ピンコードをmqttでpublishする
         # st.write('publish',pin_code,mes)
         st.write('publish',mes)
-        mqtt_broker_set(pin_code,mes)
+        #mqtt_broker_set(pin_code,mes)
+        mqtt_broker_set(modified_string,mes)
 
     # セキュリティコードは実はダミーです。
     pin_code = st.text_input('セキュリティコードを6桁で入力してください。')
