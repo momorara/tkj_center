@@ -137,7 +137,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('TKJ center v02')
+    st.title('TKJ center v03')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
