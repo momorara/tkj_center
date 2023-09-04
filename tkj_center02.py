@@ -130,7 +130,7 @@ def main():
     d1 = int((passCode - mm*100)/10)
     d2 = passCode - mm*100 - d1*10
     # test Code 当日の日付を変更して送りたい時
-    mm,d1,d2 = 13,2,5
+    mm,d1,d2 = 18,2,5
     #
     henkan = "abcdefghijklmnopqrstuvwxyz"
     henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
