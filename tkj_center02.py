@@ -7,8 +7,8 @@
 2023/08/28  ハッキングが疑われるので、アドレスを変更
             変更したことを悟られないように旧アドレスにも投げる
 2023/08/30  コマンドにTestをつける
+2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
 """
-
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
@@ -79,7 +79,6 @@ def mqtt_broker_set(pin_code,mes):
     broker = 'broker.emqx.io'
     mqtt_pub(broker,pin_code,mes)
 
-
 def input():
     # webAppの画面を構成
     date1 = st.date_input('Input date1')
@@ -92,6 +91,7 @@ def input():
     defumdy = st.button('除湿器ON/OFF')
     return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
 
+# ランダム文字列を作る
 def generate_random_string(length):
     # 現在の日付と時刻を取得
     current_datetime = datetime.datetime.now()
@@ -125,6 +125,8 @@ def main():
     mm = int(passCode/100)
     d1 = int((passCode - mm*100)/10)
     d2 = passCode - mm*100 - d1*10
+    # test Code
+    mm,d1,d2 = 11,2,5
     #
     henkan = "abcdefghijklmnopqrstuvwxyz"
     henkan = "gpjabcdefkqwxyzrlmstuvhino"
