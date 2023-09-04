@@ -8,6 +8,8 @@
             変更したことを悟られないように旧アドレスにも投げる
 2023/08/30  コマンドにTestをつける
 2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
+            passCodeは月日としようとしたが、一日同じなので、
+            # 時間　日にした
 """
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
@@ -119,7 +121,9 @@ def main():
     current_datetime = datetime.datetime.now()
     month = current_datetime.month
     day = current_datetime.day
-    passCode = month*100 + day
+    hour = current_datetime.hour
+    # passCode = month*100 + day
+    passCode = hour*100 + day
 
     # passCodeを一桁ごとの数字に分解
     mm = int(passCode/100)
@@ -139,7 +143,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('TKJ center v03')
+    st.title('TKJ center v03-2')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
