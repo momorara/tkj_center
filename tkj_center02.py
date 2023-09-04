@@ -125,11 +125,11 @@ def main():
     mm = int(passCode/100)
     d1 = int((passCode - mm*100)/10)
     d2 = passCode - mm*100 - d1*10
-    # test Code
-    mm,d1,d2 = 11,2,5
+    # test Code 当日の日付を変更して送りたい時
+    # mm,d1,d2 = 11,2,5
     #
     henkan = "abcdefghijklmnopqrstuvwxyz"
-    henkan = "gpjabcdefkqwxyzrlmstuvhino"
+    henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
     mm_s = henkan[mm]
     d1_s = henkan[d1+10] # 全体を使うように
     d2_s = henkan[d2+7]  # 全体を使うように
@@ -167,8 +167,8 @@ def main():
     date1_str = date1.strftime('%Y-%m-%d')[-2:]
     date2_str = date2.strftime('%Y-%m-%d')[-2:]
     pin_code = date1_str + date2_str
-
-
+            
+    pin_code = "1121"
     # ダミーアドレスに投げる
     if air_on_izumo == True :
         dummy_mes = "aircon/Operation_command/air_on"   
