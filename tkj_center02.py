@@ -124,6 +124,7 @@ def main():
     hour = current_datetime.hour
     # passCode = month*100 + day
     passCode = hour*100 + day
+    pin_code = str(passCord)
 
     # passCodeを一桁ごとの数字に分解
     mm = int(passCode/100)
@@ -170,9 +171,9 @@ def main():
     # 入力した日付からpin_codeを作ります。
     date1_str = date1.strftime('%Y-%m-%d')[-2:]
     date2_str = date2.strftime('%Y-%m-%d')[-2:]
-    pin_code = date1_str + date2_str
+    #pin_code = date1_str + date2_str
             
-    pin_code = "1121"
+    #pin_code = "1121"
     # ダミーアドレスに投げる
     if air_on_izumo == True :
         dummy_mes = "aircon/Operation_command/air_on"   
