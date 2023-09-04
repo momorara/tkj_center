@@ -118,7 +118,8 @@ def generate_random_string(length):
 def main():
     # 例: 長さが20のランダムな文字列を生成
     random_string = generate_random_string(30)
-    current_datetime = datetime.datetime.now()
+    UTC_OFFSET = 9 * 60 * 60
+    current_datetime = datetime.datetime.now()+ UTC_OFFSET
     month = current_datetime.month
     day = current_datetime.day
     hour = current_datetime.hour
