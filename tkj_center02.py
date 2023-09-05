@@ -136,20 +136,20 @@ def main():
     #pin_code = str(passCode)
 
     # passCodeを一桁ごとの数字に分解
-    mm = int(passCode/100)
-    d1 = int((passCode - mm*100)/10)
-    d2 = passCode - mm*100 - d1*10
+    hh = int(passCode/100)
+    d1 = int((passCode - hh*100)/10)
+    d2 = passCode - hh*100 - d1*10
     # test Code 当日の日付を変更して送りたい時
-    #mm,d1,d2 = 18,2,5
+    #hh,d1,d2 = 18,2,5
     #
     henkan = "abcdefghijklmnopqrstuvwxyz"
     henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
-    mm_s = henkan[mm]
+    hh_s = henkan[hh]
     d1_s = henkan[d1+10] # 全体を使うように
     d2_s = henkan[d2+7]  # 全体を使うように
     # ランダム文字に埋め込む
     modified_string = (
-    random_string[:3] + mm_s + random_string[5:7] +
+    random_string[:3] + hh_s + random_string[5:7] +
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
