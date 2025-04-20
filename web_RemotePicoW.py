@@ -185,7 +185,7 @@ def main():
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
     if air_off == True :
-        dummy_mes = "WebRemote/Operation_command/air_off"   
+        dummy_mes = "aircon/Operation_command/air_off"   
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
     if air_on_sozu == True :
