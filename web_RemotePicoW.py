@@ -90,10 +90,10 @@ def input():
     date2 = st.date_input('Input date2')
     
     #print('pin_code',pin_code)
-    air_on_izumo  = st.button('エアコンON @ izumo')
-    air_off = st.button('エアコンOFF')
-    air_on_sozu  = st.button('エアコンON @ sozu')
-    defumdy = st.button('除湿器ON/OFF')
+    air_on_izumo  = st.button('Sw-0 @ Web_Remote')
+    air_off = st.button('Sw-1 @ Web_Remote')
+    air_on_sozu  = st.button('Sw-2 @ Web_Remote')
+    defumdy = st.button('Sw-3 @ Web_Remote')
     return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
 
 # ランダム文字列を作る
