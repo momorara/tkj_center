@@ -199,11 +199,11 @@ def main():
             
     # 押されたボタンによって、publish内容を変える。
     if air_on_izumo == True :
-        mes = "airconTest/commandTest/air_onTest"
+        mes = "aircon/commandTest/air_onTest"
     if air_off == True :
-        mes = "airconTest/commandTest/air_offTest"
+        mes = "aircon/commandTest/air_offTest"
     if air_on_sozu == True :
-        mes = "airconTest/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
+        mes = "aircon/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
                                                        # ハッキング対策でアドレス変更 旧:air_sozu_on     
     if defumdy == True :
         mes = "dehumdy/Operation_command"
