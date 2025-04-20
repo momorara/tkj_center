@@ -1,13 +1,17 @@
 """
+2022/12/08  家のエアコン,除湿器のコントロールWebApp
+            このプログラムはブラウザをリロードするたびに起動します。
+2022/12/18  温度湿度のファィルを読んで表示
+            sub_humedy,tempを起動 1つだけ起動するように工夫する
+2023/07/17  sozuのためにボタンを追加、offはizumoと共用
+2023/08/28  ハッキングが疑われるので、アドレスを変更
+            変更したことを悟られないように旧アドレスにも投げる
+2023/08/30  コマンドにTestをつける
 2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
             passCodeは月日としようとしたが、一日同じなので、
             # 時間と日にした
             ただし、ラズパイ上では日時は合っているが、streamit上では、9時間ずれているので注意
             pytzを使って補正した
-
-2025/04/20  tkj_center01を改造してRemotePicoをコントロール出来るようにしたい
-
-web_RemotePicoW.py
 """
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
@@ -20,18 +24,18 @@ import string
 import datetime
 import pytz
 
-# # --------------- subを立ち上げる ---------------
-# # ファイルがあるか無いかを確認する。
-# if os.path.exists('sub_flag.txt'):
-#     with open('sub_flag.txt') as f:
-#         sub_flag = f.read()
-#     if sub_flag == 'stop':
-#         prog = 'python3 ' + 'sub_temp.py'
-#         subprocess.Popen(prog, shell=True)
-#         prog = 'python3 ' + 'sub_humedy.py'
-#         subprocess.Popen(prog, shell=True)
-# else:
-#     st.info('sub_flag.txtがありません')
+# --------------- subを立ち上げる ---------------
+# ファイルがあるか無いかを確認する。
+if os.path.exists('sub_flag.txt'):
+    with open('sub_flag.txt') as f:
+        sub_flag = f.read()
+    if sub_flag == 'stop':
+        prog = 'python3 ' + 'sub_temp.py'
+        subprocess.Popen(prog, shell=True)
+        prog = 'python3 ' + 'sub_humedy.py'
+        subprocess.Popen(prog, shell=True)
+else:
+    st.info('sub_flag.txtがありません')
 
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
@@ -86,10 +90,10 @@ def input():
     date2 = st.date_input('Input date2')
     
     #print('pin_code',pin_code)
-    air_on_izumo  = st.button('SW-0 @ WebRemote')
-    air_off = st.button('SW-1 @ WebRemote')
-    air_on_sozu  = st.button('SW-2 @ WebRemote')
-    defumdy = st.button('SW-3 @ WebRemote')
+    air_on_izumo  = st.button('エアコンON @ izumo')
+    air_off = st.button('エアコンOFF')
+    air_on_sozu  = st.button('エアコンON @ sozu')
+    defumdy = st.button('除湿器ON/OFF')
     return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
 
 # ランダム文字列を作る
@@ -149,7 +153,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('WebRemote v02')
+    st.title('WebRemote v01')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
@@ -157,18 +161,18 @@ def main():
 
     # ラズパイからのメッセージをsub_**で受けてファイルを作っているので、
     # そのデータを表示する。
-    # if os.path.exists('temp.txt'):
-    #     with open('temp.txt') as f:
-    #         temp = f.read()
-    # else:
-    #     temp = 'no file'
-    # if os.path.exists('humdy.txt'):
-    #     with open('humdy.txt') as f:
-    #         humdy = f.read()
-    # else:
-    #     humdy = 'no file'
+    if os.path.exists('temp.txt'):
+        with open('temp.txt') as f:
+            temp = f.read()
+    else:
+        temp = 'no file'
+    if os.path.exists('humdy.txt'):
+        with open('humdy.txt') as f:
+            humdy = f.read()
+    else:
+        humdy = 'no file'
 
-    # st.write("温度:",temp," / 湿度:",humdy)
+    st.write("温度:",temp," / 湿度:",humdy)
 
     air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2 = input()
     st.write(air_on_izumo,air_off,air_on_sozu,defumdy)
@@ -181,7 +185,7 @@ def main():
     #pin_code = "1121"
     # ダミーアドレスに投げる
     if air_on_izumo == True :
-        dummy_mes = "WebRemote/Operation_command/air_on"   
+        dummy_mes = "aircon/Operation_command/air_on"   
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
     if air_off == True :
@@ -189,7 +193,7 @@ def main():
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
     if air_on_sozu == True :
-        dummy_mes = "WebRemote/Operation_command/air_sozu_on"   
+        dummy_mes = "aircon/Operation_command/air_sozu_on"   
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
             
