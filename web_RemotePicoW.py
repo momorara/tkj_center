@@ -13,32 +13,45 @@ import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
 import os
-import subprocess
-import time
+# import subprocess
 import random
 import string
 import datetime
 import pytz
 
 # 設定値
-mes = "tkj/remote/2025/sw012345" # mqttトピックス
-broker = "broker.hivemq.com" # mqttブローカー
+mes = "tkj/remote/2025/sw012345"      # mqttトピックス
+broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjabcdefkqwxyzrlmstuvhino" # 暗号化コード たまに変えると良いかも
+Web_title = 'WebRemote v05'
 
 
+"""
+説明、
+スイッチ6個のうち1つが押されると、mqttを送信する
+送信する際のトピックはmesで設定されたもの1つ
+送信内容は、日、時間により暗号化されたものと末尾にスイッチの番号が付与される。
+
+受信側で、復号化して日と時間が一致していれば、正しい信号と考え
+末尾のスイッチ番号により操作を行う。
+
+mqttの信号は平文で送っているので、同じ内容を送られ妨害されたことがあり
+このようにしている、この対策以降妨害はない模様。
+
+"""
 
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
-if os.path.exists('sub_flag.txt'):
-    with open('sub_flag.txt') as f:
-        sub_flag = f.read()
-    if sub_flag == 'stop':
-        prog = 'python3 ' + 'sub_temp.py'
-        subprocess.Popen(prog, shell=True)
-        prog = 'python3 ' + 'sub_humedy.py'
-        subprocess.Popen(prog, shell=True)
-else:
-    st.info('sub_flag.txtがありません')
+# if os.path.exists('sub_flag.txt'):
+#     with open('sub_flag.txt') as f:
+#         sub_flag = f.read()
+#     if sub_flag == 'stop':
+#         prog = 'python3 ' + 'sub_temp.py'
+#         subprocess.Popen(prog, shell=True)
+#         prog = 'python3 ' + 'sub_humedy.py'
+#         subprocess.Popen(prog, shell=True)
+# else:
+#     st.info('sub_flag.txtがありません')
 
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
@@ -170,11 +183,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('WebRemote v05')
-    # with open('humdy.txt', mode='w') as f: #上書き
-    #     f.write('99')
-    # time.sleep(5)
-    # st.title('TKJ center')
+    st.title(Web_title)
 
     # ラズパイからのメッセージをsub_**で受けてファイルを作っているので、
     # そのデータを表示する。
@@ -200,20 +209,6 @@ def main():
     date2_str = date2.strftime('%Y-%m-%d')[-2:]
     pin_code = date1_str + date2_str
             
-    #pin_code = "1121"
-    # ダミーアドレスに投げる
-    # if remote_sw0 == True :
-    #     dummy_mes = "tkj/remote/2025/sw0"   
-    #     mqtt_broker_set(pin_code,dummy_mes)
-    #     sleep(1)
-    # if air_off == True :
-    #     dummy_mes = "aircon/Operation_command/air_off"   
-    #     mqtt_broker_set(pin_code,dummy_mes)
-    #     sleep(1)
-    # if air_on_sozu == True :
-    #     dummy_mes = "aircon/Operation_command/air_sozu_on"   
-    #     mqtt_broker_set(pin_code,dummy_mes)
-    #     sleep(1)
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
@@ -231,15 +226,8 @@ def main():
     if remote_sw5 == True :
         sw = "5"
 
-    # if air_off == True :
-    #     mes = "aircon/commandTest/air_offTest"
-    # if air_on_sozu == True :
-    #     mes = "aircon/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
-    #                                                    # ハッキング対策でアドレス変更 旧:air_sozu_on     
-    # if defumdy == True :
-    #     mes = "dehumdy/Operation_command"
 
-    # 一つでもボタンが押されていることが送信の条件
+    # ボタンが押されていることが送信の条件
     if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
         # ピンコードをmqttでpublishする
         # st.write('publish',pin_code,mes)
