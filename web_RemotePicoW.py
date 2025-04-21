@@ -1,5 +1,5 @@
 """
-2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
+2023/09/04  passCordを当日の月日とした、さらにこれを暗号化して送信する。
             passCodeは月日としようとしたが、一日同じなので、
             # 時間と日にした
             ただし、ラズパイ上では日時は合っているが、streamit上では、9時間ずれているので注意
@@ -32,7 +32,7 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v01'
+Web_title = 'WebRemote v02'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -45,6 +45,72 @@ sw_name5  = 'SW-5 @ RemotePico'
 """
 Copyright (c) 2025 TKJ_Works
 """
+
+
+# ランダム文字列を作る
+def generate_random_string(length):
+    # 現在の日付と時刻を取得
+    current_datetime = datetime.datetime.now()
+    # 年、月、日、時、分、秒を取得
+    day = current_datetime.day
+    minute = current_datetime.minute
+    second = current_datetime.second
+    # 年、月、日、時、分、秒を文字列に変換し、結合して種(seed)とする
+    seed = f"{day}-{minute}-{second}"
+    # 乱数生成器に種(seed)を設定
+    random.seed(seed)
+    # 半角アルファベット（大文字と小文字）を含む文字列を作成
+    characters = string.ascii_letters
+    random_string = ""
+    # 指定された長さまでループを実行
+    for _ in range(length):
+        # 半角アルファベットからランダムに文字を選び、それをrandom_stringに追加
+        random_character = random.choice(characters)
+        random_string += random_character
+    return random_string
+
+def encryption():
+    # 例: 長さが20のランダムな文字列を生成
+    random_string = generate_random_string(30)
+
+    # UTC時間を取得
+    current_datetime_utc = datetime.datetime.now(pytz.utc)
+    # 日本標準時（JST）に変換
+    jst_timezone = pytz.timezone('Asia/Tokyo')
+    current_datetime_jst = current_datetime_utc.astimezone(jst_timezone)
+    # 必要な情報を取得
+    minute = current_datetime_jst.minute
+    day = current_datetime_jst.day
+    hour = current_datetime_jst.hour
+    # 分については、コード化を1桁にするため 6 で割る
+    # さらに 複合の際には 6で割った数字と　+1した分を　OKとする
+    print(minute,"分なので6で割ると",minute//6)
+
+    # パスコードを計算
+    passCode = hour * 1000 + day * 10 + minute//6
+    print("passCode",passCode)
+    
+    # passCodeを一桁ごとの数字に分解
+    hh = int(passCode/1000)
+    d1 = int((passCode - hh*1000)/100)
+    d2 = int(passCode/10) - hh*100 - d1*10
+    m6 = passCode - hh*1000 - d1*100 - d2*10
+    print(passCode,hh,d1,d2,m6)
+    #
+    henkan = "abcdefghijklmnopqrstuvwxyz"
+    henkan = "lmstuvhinogpjabcdefkqwxyzr"  # たまに変えると良い、受信側も変えること
+    hh_s = henkan[hh]
+    d1_s = henkan[d1+10] # 全体を使うように
+    d2_s = henkan[d2+7]  # 全体を使うように
+    m6_s = henkan[m6+9]  # 全体を使うように
+    # ランダム文字に埋め込む
+    modified_string = (
+    random_string[:3] + hh_s + random_string[5:7] +
+    d1_s + random_string[9:11] + d2_s + random_string[13:15] + m6_s + random_string[17:])
+    # print(hh,d1,d2,m6)
+    print(hh_s ,d1_s ,d2_s ,m6_s)
+    # print(modified_string)
+    return modified_string
 
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
@@ -111,61 +177,10 @@ def input():
     #return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
     return remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2
 
-# ランダム文字列を作る
-def generate_random_string(length):
-    # 現在の日付と時刻を取得
-    current_datetime = datetime.datetime.now()
-    # 年、月、日、時、分、秒を取得
-    day = current_datetime.day
-    minute = current_datetime.minute
-    second = current_datetime.second
-    # 年、月、日、時、分、秒を文字列に変換し、結合して種(seed)とする
-    seed = f"{day}-{minute}-{second}"
-    # 乱数生成器に種(seed)を設定
-    random.seed(seed)
-    # 半角アルファベット（大文字と小文字）を含む文字列を作成
-    characters = string.ascii_letters
-    random_string = ""
-    # 指定された長さまでループを実行
-    for _ in range(length):
-        # 半角アルファベットからランダムに文字を選び、それをrandom_stringに追加
-        random_character = random.choice(characters)
-        random_string += random_character
-    return random_string
-
 def main():
-    # 例: 長さが20のランダムな文字列を生成
-    random_string = generate_random_string(30)
 
-    # UTC時間を取得
-    current_datetime_utc = datetime.datetime.now(pytz.utc)
-    # 日本標準時（JST）に変換
-    jst_timezone = pytz.timezone('Asia/Tokyo')
-    current_datetime_jst = current_datetime_utc.astimezone(jst_timezone)
-    # 必要な情報を取得
-    month = current_datetime_jst.month
-    day = current_datetime_jst.day
-    hour = current_datetime_jst.hour
-    # パスコードを計算
-    passCode = hour * 100 + day
-    #pin_code = str(passCode)
-
-    # passCodeを一桁ごとの数字に分解
-    hh = int(passCode/100)
-    d1 = int((passCode - hh*100)/10)
-    d2 = passCode - hh*100 - d1*10
-    # test Code 当日の日付を変更して送りたい時
-    #hh,d1,d2 = 18,2,5
-    #
-    # henkan = "abcdefghijklmnopqrstuvwxyz"
-    # henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
-    hh_s = henkan[hh]
-    d1_s = henkan[d1+10] # 全体を使うように
-    d2_s = henkan[d2+7]  # 全体を使うように
-    # ランダム文字に埋め込む
-    modified_string = (
-    random_string[:3] + hh_s + random_string[5:7] +
-    d1_s + random_string[9:11] + d2_s + random_string[13:])
+    # 暗号を作成する
+    modified_string = encryption()
             
     st.title(Web_title)
 
