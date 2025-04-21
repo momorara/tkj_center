@@ -210,6 +210,8 @@ def main():
     # セキュリティコードは実はダミーです。
     pin_code = st.text_input('セキュリティコードを6桁で入力してください。')
     st.write("入力内容:",pin_code)
+            
+    reset  = st.button('reset')
 
     # # リセットボタンが押されたらsub起動フラグ、温度・湿度ファィルを削除
     # reset  = st.button('reset')
