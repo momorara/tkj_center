@@ -33,7 +33,7 @@ import pytz
 # 設定値
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
-henkan = "gpjabcdefkqwxyzrlmstuvhino" # 暗号化コード たまに変えると良いかも
+henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも
 Web_title = 'WebRemote v06'
 
 
