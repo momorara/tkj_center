@@ -82,6 +82,7 @@ def mqtt_broker_set(pin_code,mes):
     broker = 'mqtt.eclipseprojects.io' 
     mqtt_pub(broker,pin_code,mes)
     broker = 'broker.emqx.io'
+    broker = "broker.hivemq.com"
     mqtt_pub(broker,pin_code,mes)
 
 def input():
