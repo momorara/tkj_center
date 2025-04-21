@@ -20,6 +20,13 @@ import string
 import datetime
 import pytz
 
+# 設定値
+mes = "tkj/remote/2025/sw012345" # mqttトピックス
+broker = "broker.hivemq.com" # mqttブローカー
+henkan = "gpjabcdefkqwxyzrlmstuvhino" # 暗号化コード たまに変えると良いかも
+
+
+
 # --------------- subを立ち上げる ---------------
 # ファイルがあるか無いかを確認する。
 if os.path.exists('sub_flag.txt'):
@@ -80,7 +87,7 @@ def mqtt_broker_set(pin_code,mes):
     # broker = 'broker.emqx.io'
 
     # ここで送信する
-    broker = "broker.hivemq.com"
+    # broker = "broker.hivemq.com"
     mqtt_pub(broker,pin_code,mes)
 
 def input():
@@ -152,8 +159,8 @@ def main():
     # test Code 当日の日付を変更して送りたい時
     #hh,d1,d2 = 18,2,5
     #
-    henkan = "abcdefghijklmnopqrstuvwxyz"
-    henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
+    # henkan = "abcdefghijklmnopqrstuvwxyz"
+    # henkan = "gpjabcdefkqwxyzrlmstuvhino"  # たまに変えると良い、受信側も変えること
     hh_s = henkan[hh]
     d1_s = henkan[d1+10] # 全体を使うように
     d2_s = henkan[d2+7]  # 全体を使うように
@@ -163,7 +170,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('WebRemote v04')
+    st.title('WebRemote v05')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
@@ -210,7 +217,7 @@ def main():
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
-    mes = "tkj/remote/2025/sw012345"
+    # mes = "tkj/remote/2025/sw012345"
     if remote_sw0 == True :
         sw = "0"
     if remote_sw1 == True :
