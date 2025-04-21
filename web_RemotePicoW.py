@@ -23,8 +23,6 @@ web_RemotePicoW.py
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
-import os
-# import subprocess
 import random
 import string
 import datetime
@@ -33,7 +31,7 @@ import pytz
 # 設定値
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
-henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも
+henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 Web_title = 'WebRemote v06'
 
 # スイッチの名所変更が可能です。
@@ -47,19 +45,6 @@ sw_name5  = 'SW-5 @ RemotePico'
 """
 Copyright (c) 2025 TKJ_Works
 """
-
-# --------------- subを立ち上げる ---------------
-# ファイルがあるか無いかを確認する。
-# if os.path.exists('sub_flag.txt'):
-#     with open('sub_flag.txt') as f:
-#         sub_flag = f.read()
-#     if sub_flag == 'stop':
-#         prog = 'python3 ' + 'sub_temp.py'
-#         subprocess.Popen(prog, shell=True)
-#         prog = 'python3 ' + 'sub_humedy.py'
-#         subprocess.Popen(prog, shell=True)
-# else:
-#     st.info('sub_flag.txtがありません')
 
 # --------------- publish ---------------
 # ブローカーに接続できたときの処理
@@ -115,14 +100,6 @@ def input():
     # webAppの画面を構成
     date1 = st.date_input('Input date1')
     date2 = st.date_input('Input date2')
-    
-    #print('pin_code',pin_code)
-    # air_on_izumo  = st.button('SW-0 @ RemotePico')  # remote_sw0
-    # air_off = st.button('SW-1 @ RemotePico') # remote_sw1
-    # air_on_sozu  = st.button('SW-2 @ RemotePico') # remote_sw2
-    # defumdy = st.button('SW-3 @ RemotePico') # remote_sw3
-    # air_on_sozu  = st.button('SW-4 @ RemotePico') # remote_sw4
-    # defumdy = st.button('SW-5 @ RemotePico') # remote_sw5
 
     remote_sw0  = st.button(sw_name0) # remote_sw0
     remote_sw1  = st.button(sw_name1) # remote_sw1
