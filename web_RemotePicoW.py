@@ -184,7 +184,7 @@ def main():
             
     st.title(Web_title)
 
-    temp,humdy = 23,45  # ダミー表示
+    temp,humdy = 24,45  # ダミー表示
     st.write("温度:",temp," / 湿度:",humdy)
 
     remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2 = input()
