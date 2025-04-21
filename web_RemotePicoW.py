@@ -185,7 +185,7 @@ def main():
     #pin_code = "1121"
     # ダミーアドレスに投げる
     if air_on_izumo == True :
-        dummy_mes = "aircon/Operation_command/air_on"   
+        dummy_mes = "tkj/raspberry_pico/temp_AHT/48"   
         mqtt_broker_set(pin_code,dummy_mes)
         sleep(1)
     if air_off == True :
@@ -199,7 +199,7 @@ def main():
             
     # 押されたボタンによって、publish内容を変える。
     if air_on_izumo == True :
-        mes = "aircon/commandTest/air_onTest"
+        mes = "tkj/raspberry_pico/temp_AHT/48"
     if air_off == True :
         mes = "aircon/commandTest/air_offTest"
     if air_on_sozu == True :
