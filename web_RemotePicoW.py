@@ -201,7 +201,7 @@ def main():
     if air_on_izumo == True :
         mes = "tkj/raspberry_pico/temp_AHT/48"
     if air_off == True :
-        mes = "aircon1/commandTest/air_offTest"
+        mes = "aircon/commandTest/air_offTest"
     if air_on_sozu == True :
         mes = "aircon/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
                                                        # ハッキング対策でアドレス変更 旧:air_sozu_on     
