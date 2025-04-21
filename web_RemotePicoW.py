@@ -163,7 +163,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('WebRemote v02')
+    st.title('WebRemote v03')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
@@ -210,17 +210,17 @@ def main():
             
     # 押されたボタンによって、publish内容を変える。
     if remote_sw0 == True :
-        mes = "tkj/remote/2025/sw0"
+        mes = "tkj/remote/2025/sw012345"
     if remote_sw1 == True :
-        mes = "tkj/remote/2025/sw1"
+        mes = "tkj/remote/2025/sw012345"
     if remote_sw2 == True :
-        mes = "tkj/remote/2025/sw2"
+        mes = "tkj/remote/2025/sw012345"
     if remote_sw3 == True :
-        mes = "tkj/remote/2025/sw3"
+        mes = "tkj/remote/2025/sw012345"
     if remote_sw4 == True :
-        mes = "tkj/remote/2025/sw4"
+        mes = "tkj/remote/2025/sw012345"
     if remote_sw5 == True :
-        mes = "tkj/remote/2025/sw5"
+        mes = "tkj/remote/2025/sw012345"
 
     # if air_off == True :
     #     mes = "aircon/commandTest/air_offTest"
