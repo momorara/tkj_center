@@ -37,12 +37,12 @@ henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると
 Web_title = 'WebRemote v06'
 
 # スイッチの名所変更が可能です。
-sw_name0  = 'SW-0 @ RemotePico'
-sw_name0  = 'SW-1 @ RemotePico'
-sw_name0  = 'SW-2 @ RemotePico'
-sw_name0  = 'SW-3 @ RemotePico'
-sw_name0  = 'SW-4 @ RemotePico'
-sw_name0  = 'SW-5 @ RemotePico'
+sw_name0  = 'aircon'
+sw_name1  = 'SW-1 @ RemotePico'
+sw_name2  = 'SW-2 @ RemotePico'
+sw_name3  = 'SW-3 @ RemotePico'
+sw_name4  = 'SW-4 @ RemotePico'
+sw_name5  = 'SW-5 @ RemotePico'
 
 """
 Copyright (c) 2025 TKJ_Works
