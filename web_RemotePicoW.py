@@ -37,7 +37,7 @@ henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると
 Web_title = 'WebRemote v06'
 
 # スイッチの名所変更が可能です。
-sw_name0  = 'aircon'
+sw_name0  = 'SW-0 @ RemotePico'
 sw_name1  = 'SW-1 @ RemotePico'
 sw_name2  = 'SW-2 @ RemotePico'
 sw_name3  = 'SW-3 @ RemotePico'
@@ -125,11 +125,11 @@ def input():
     # defumdy = st.button('SW-5 @ RemotePico') # remote_sw5
 
     remote_sw0  = st.button(sw_name0) # remote_sw0
-    remote_sw1  = st.button('SW-1 @ RemotePico') # remote_sw1
-    remote_sw2  = st.button('SW-2 @ RemotePico') # remote_sw2
-    remote_sw3  = st.button('SW-3 @ RemotePico') # remote_sw3
-    remote_sw4  = st.button('SW-4 @ RemotePico') # remote_sw4
-    remote_sw5  = st.button('SW-5 @ RemotePico') # remote_sw5
+    remote_sw1  = st.button(sw_name1) # remote_sw1
+    remote_sw2  = st.button(sw_name2) # remote_sw2
+    remote_sw3  = st.button(sw_name3) # remote_sw3
+    remote_sw4  = st.button(sw_name4) # remote_sw4
+    remote_sw5  = st.button(sw_name5) # remote_sw5
     
     #return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
     return remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2
