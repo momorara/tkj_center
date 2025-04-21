@@ -1,17 +1,13 @@
 """
-2022/12/08  家のエアコン,除湿器のコントロールWebApp
-            このプログラムはブラウザをリロードするたびに起動します。
-2022/12/18  温度湿度のファィルを読んで表示
-            sub_humedy,tempを起動 1つだけ起動するように工夫する
-2023/07/17  sozuのためにボタンを追加、offはizumoと共用
-2023/08/28  ハッキングが疑われるので、アドレスを変更
-            変更したことを悟られないように旧アドレスにも投げる
-2023/08/30  コマンドにTestをつける
 2023/09/04  passCordを当日の月日とした、さらにこれをあんごうかして送信する。
             passCodeは月日としようとしたが、一日同じなので、
             # 時間と日にした
             ただし、ラズパイ上では日時は合っているが、streamit上では、9時間ずれているので注意
             pytzを使って補正した
+
+2025/04/21  RemotePicoをWebAppで制御できるように改造
+
+web_RemotePicoW.py
 """
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
@@ -79,9 +75,11 @@ def mqtt_pub(broker,pin_code,mes):
 def mqtt_broker_set(pin_code,mes):
     # ブローカーが調子の悪い時があるので、切り替えてpubします。
     # なので、調子の良い時には2つのpublishが届くので、注意が必要
-    broker = 'mqtt.eclipseprojects.io' 
-    mqtt_pub(broker,pin_code,mes)
-    broker = 'broker.emqx.io'
+    # broker = 'mqtt.eclipseprojects.io' 
+    # mqtt_pub(broker,pin_code,mes)
+    # broker = 'broker.emqx.io'
+
+    # ここで送信する
     broker = "broker.hivemq.com"
     mqtt_pub(broker,pin_code,mes)
 
@@ -91,11 +89,22 @@ def input():
     date2 = st.date_input('Input date2')
     
     #print('pin_code',pin_code)
-    air_on_izumo  = st.button('SW-0 @ RemotePico')
-    air_off = st.button('SW-1 @ RemotePico')
-    air_on_sozu  = st.button('SW-2 @ RemotePico')
-    defumdy = st.button('SW-3 @ RemotePico')
-    return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
+    # air_on_izumo  = st.button('SW-0 @ RemotePico')  # remote_sw0
+    # air_off = st.button('SW-1 @ RemotePico') # remote_sw1
+    # air_on_sozu  = st.button('SW-2 @ RemotePico') # remote_sw2
+    # defumdy = st.button('SW-3 @ RemotePico') # remote_sw3
+    # air_on_sozu  = st.button('SW-4 @ RemotePico') # remote_sw4
+    # defumdy = st.button('SW-5 @ RemotePico') # remote_sw5
+
+    remote_sw0  = st.button('SW-0 @ RemotePico') # remote_sw0
+    remote_sw1  = st.button('SW-1 @ RemotePico') # remote_sw1
+    remote_sw2  = st.button('SW-2 @ RemotePico') # remote_sw2
+    remote_sw3  = st.button('SW-3 @ RemotePico') # remote_sw3
+    remote_sw4  = st.button('SW-4 @ RemotePico') # remote_sw4
+    remote_sw5  = st.button('SW-5 @ RemotePico') # remote_sw5
+    
+    #return air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2
+    return remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2
 
 # ランダム文字列を作る
 def generate_random_string(length):
@@ -175,8 +184,9 @@ def main():
 
     st.write("温度:",temp," / 湿度:",humdy)
 
-    air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2 = input()
-    st.write(air_on_izumo,air_off,air_on_sozu,defumdy)
+    #air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2 = input()
+    remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2 = input()
+    st.write(remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5)
 
     # 入力した日付からpin_codeを作ります。
     date1_str = date1.strftime('%Y-%m-%d')[-2:]
@@ -185,33 +195,43 @@ def main():
             
     #pin_code = "1121"
     # ダミーアドレスに投げる
-    if air_on_izumo == True :
-        dummy_mes = "tkj/raspberry_pico/temp_AHT/48"   
-        mqtt_broker_set(pin_code,dummy_mes)
-        sleep(1)
-    if air_off == True :
-        dummy_mes = "aircon/Operation_command/air_off"   
-        mqtt_broker_set(pin_code,dummy_mes)
-        sleep(1)
-    if air_on_sozu == True :
-        dummy_mes = "aircon/Operation_command/air_sozu_on"   
-        mqtt_broker_set(pin_code,dummy_mes)
-        sleep(1)
+    # if remote_sw0 == True :
+    #     dummy_mes = "tkj/remote/2025/sw0"   
+    #     mqtt_broker_set(pin_code,dummy_mes)
+    #     sleep(1)
+    # if air_off == True :
+    #     dummy_mes = "aircon/Operation_command/air_off"   
+    #     mqtt_broker_set(pin_code,dummy_mes)
+    #     sleep(1)
+    # if air_on_sozu == True :
+    #     dummy_mes = "aircon/Operation_command/air_sozu_on"   
+    #     mqtt_broker_set(pin_code,dummy_mes)
+    #     sleep(1)
             
     # 押されたボタンによって、publish内容を変える。
-    if air_on_izumo == True :
-        mes = "tkj/raspberry_pico/temp_AHT/48"
-    if air_off == True :
-        #mes = "tkj/raspberry_pico/temp_AHT/48" #"aircon/commandTest/air_offTest"
-        mes = "tkj/test"
-    if air_on_sozu == True :
-        mes = "aircon/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
-                                                       # ハッキング対策でアドレス変更 旧:air_sozu_on     
-    if defumdy == True :
-        mes = "dehumdy/Operation_command"
+    if remote_sw0 == True :
+        mes = "tkj/remote/2025/sw0"
+    if remote_sw1 == True :
+        mes = "tkj/remote/2025/sw1"
+    if remote_sw2 == True :
+        mes = "tkj/remote/2025/sw2"
+    if remote_sw3 == True :
+        mes = "tkj/remote/2025/sw3"
+    if remote_sw4 == True :
+        mes = "tkj/remote/2025/sw4"
+    if remote_sw5 == True :
+        mes = "tkj/remote/2025/sw5"
+
+    # if air_off == True :
+    #     mes = "aircon/commandTest/air_offTest"
+    # if air_on_sozu == True :
+    #     mes = "aircon/commandTest/sozu_air_onTest"   # air_on_sozuではダメみたい
+    #                                                    # ハッキング対策でアドレス変更 旧:air_sozu_on     
+    # if defumdy == True :
+    #     mes = "dehumdy/Operation_command"
 
     # 一つでもボタンが押されていることが送信の条件
-    if air_on_izumo == True or air_off == True or air_on_sozu == True or defumdy == True:
+    if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
         # ピンコードをmqttでpublishする
         # st.write('publish',pin_code,mes)
         st.write('publish',mes)
