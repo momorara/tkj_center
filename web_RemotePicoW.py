@@ -32,7 +32,7 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v07'
+Web_title = 'WebRemote v01'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -165,8 +165,7 @@ def main():
     # ランダム文字に埋め込む
     modified_string = (
     random_string[:3] + hh_s + random_string[5:7] +
-    d1_s + random_string[9:11] + d2_s + random_string[13:]
-    )
+    d1_s + random_string[9:11] + d2_s + random_string[13:])
             
     st.title(Web_title)
 
@@ -180,7 +179,6 @@ def main():
     date1_str = date1.strftime('%Y-%m-%d')[-2:]
     date2_str = date2.strftime('%Y-%m-%d')[-2:]
     pin_code = date1_str + date2_str
-            
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
@@ -198,7 +196,6 @@ def main():
     if remote_sw5 == True :
         sw = "5"
 
-
     # ボタンが押されていることが送信の条件
     if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
         # ピンコードをmqttでpublishする
@@ -210,23 +207,9 @@ def main():
     # セキュリティコードは実はダミーです。
     pin_code = st.text_input('セキュリティコードを6桁で入力してください。')
     st.write("入力内容:",pin_code)
-            
+
+    # 表示をリセット
     reset  = st.button('reset')
-
-    # # リセットボタンが押されたらsub起動フラグ、温度・湿度ファィルを削除
-    # reset  = st.button('reset')
-    # if reset == True :
-    #     try:
-    #         # これによりsubも自分で止まる
-    #         with open('sub_flag.txt', mode='w') as f: #上書き
-    #             f.write('stop')
-    #         with open('temp.txt', mode='w') as f: #上書き
-    #             f.write('null')
-    #         with open('humdy.txt', mode='w') as f: #上書き
-    #             f.write('null')
-    #     except:
-    #         pass
-
 
 if __name__ == '__main__':
     main()
