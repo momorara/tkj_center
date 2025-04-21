@@ -163,7 +163,7 @@ def main():
     d1_s + random_string[9:11] + d2_s + random_string[13:]
     )
             
-    st.title('WebRemote v03')
+    st.title('WebRemote v04')
     # with open('humdy.txt', mode='w') as f: #上書き
     #     f.write('99')
     # time.sleep(5)
@@ -209,18 +209,20 @@ def main():
     #     sleep(1)
             
     # 押されたボタンによって、publish内容を変える。
+    sw = 9
+    mes = "tkj/remote/2025/sw012345"
     if remote_sw0 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "0"
     if remote_sw1 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "1"
     if remote_sw2 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "2"
     if remote_sw3 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "3"
     if remote_sw4 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "4"
     if remote_sw5 == True :
-        mes = "tkj/remote/2025/sw012345"
+        sw = "5"
 
     # if air_off == True :
     #     mes = "aircon/commandTest/air_offTest"
@@ -236,7 +238,7 @@ def main():
         # st.write('publish',pin_code,mes)
         st.write('publish',mes)
         #mqtt_broker_set(pin_code,mes)
-        mqtt_broker_set(modified_string,mes)
+        mqtt_broker_set(modified_string + sw, mes)
 
     # セキュリティコードは実はダミーです。
     pin_code = st.text_input('セキュリティコードを6桁で入力してください。')
