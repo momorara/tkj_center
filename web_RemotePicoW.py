@@ -32,9 +32,9 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v06'
+Web_title = 'WebRemote v07'
 
-# スイッチの名所変更が可能です。
+# スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
 sw_name1  = 'SW-1 @ RemotePico'
 sw_name2  = 'SW-2 @ RemotePico'
@@ -211,19 +211,19 @@ def main():
     pin_code = st.text_input('セキュリティコードを6桁で入力してください。')
     st.write("入力内容:",pin_code)
 
-    # リセットボタンが押されたらsub起動フラグ、温度・湿度ファィルを削除
-    reset  = st.button('reset')
-    if reset == True :
-        try:
-            # これによりsubも自分で止まる
-            with open('sub_flag.txt', mode='w') as f: #上書き
-                f.write('stop')
-            with open('temp.txt', mode='w') as f: #上書き
-                f.write('null')
-            with open('humdy.txt', mode='w') as f: #上書き
-                f.write('null')
-        except:
-            pass
+    # # リセットボタンが押されたらsub起動フラグ、温度・湿度ファィルを削除
+    # reset  = st.button('reset')
+    # if reset == True :
+    #     try:
+    #         # これによりsubも自分で止まる
+    #         with open('sub_flag.txt', mode='w') as f: #上書き
+    #             f.write('stop')
+    #         with open('temp.txt', mode='w') as f: #上書き
+    #             f.write('null')
+    #         with open('humdy.txt', mode='w') as f: #上書き
+    #             f.write('null')
+    #     except:
+    #         pass
 
 
 if __name__ == '__main__':
