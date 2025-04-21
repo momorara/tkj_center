@@ -38,7 +38,7 @@ Web_title = 'WebRemote v06'
 
 
 """
-
+Copyright (c) 2025 TKJ_Works
 """
 
 # --------------- subを立ち上げる ---------------
