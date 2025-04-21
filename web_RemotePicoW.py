@@ -36,6 +36,13 @@ broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjawcdefkrwxtzrtmsgughino" # 暗号化コード たまに変えると良いかも
 Web_title = 'WebRemote v06'
 
+# スイッチの名所変更が可能です。
+sw_name0  = 'SW-0 @ RemotePico'
+sw_name0  = 'SW-1 @ RemotePico'
+sw_name0  = 'SW-2 @ RemotePico'
+sw_name0  = 'SW-3 @ RemotePico'
+sw_name0  = 'SW-4 @ RemotePico'
+sw_name0  = 'SW-5 @ RemotePico'
 
 """
 Copyright (c) 2025 TKJ_Works
@@ -117,7 +124,7 @@ def input():
     # air_on_sozu  = st.button('SW-4 @ RemotePico') # remote_sw4
     # defumdy = st.button('SW-5 @ RemotePico') # remote_sw5
 
-    remote_sw0  = st.button('SW-0 @ RemotePico') # remote_sw0
+    remote_sw0  = st.button(sw_name0) # remote_sw0
     remote_sw1  = st.button('SW-1 @ RemotePico') # remote_sw1
     remote_sw2  = st.button('SW-2 @ RemotePico') # remote_sw2
     remote_sw3  = st.button('SW-3 @ RemotePico') # remote_sw3
