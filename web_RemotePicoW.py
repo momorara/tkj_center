@@ -23,7 +23,7 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "gpjabcdefkqwxyzrlmstuvhino" # 暗号化コード たまに変えると良いかも
-Web_title = 'WebRemote v05'
+Web_title = 'WebRemote v06'
 
 
 """
@@ -185,22 +185,9 @@ def main():
             
     st.title(Web_title)
 
-    # ラズパイからのメッセージをsub_**で受けてファイルを作っているので、
-    # そのデータを表示する。
-    if os.path.exists('temp.txt'):
-        with open('temp.txt') as f:
-            temp = f.read()
-    else:
-        temp = 'no file'
-    if os.path.exists('humdy.txt'):
-        with open('humdy.txt') as f:
-            humdy = f.read()
-    else:
-        humdy = 'no file'
-
+    temp,humdy = 23,45  # ダミー表示
     st.write("温度:",temp," / 湿度:",humdy)
 
-    #air_on_izumo,air_off,air_on_sozu,defumdy,date1,date2 = input()
     remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2 = input()
     st.write(remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5)
 
