@@ -32,7 +32,7 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v02'
+Web_title = 'WebRemote v03'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -97,8 +97,8 @@ def encryption():
     m6 = passCode - hh*1000 - d1*100 - d2*10
     print(passCode,hh,d1,d2,m6)
     #
-    henkan = "abcdefghijklmnopqrstuvwxyz"
-    henkan = "lmstuvhinogpjabcdefkqwxyzr"  # たまに変えると良い、受信側も変えること
+    # henkan = "abcdefghijklmnopqrstuvwxyz"
+    # henkan = "lmstuvhinogpjabcdefkqwxyzr"  # たまに変えると良い、受信側も変えること
     hh_s = henkan[hh]
     d1_s = henkan[d1+10] # 全体を使うように
     d2_s = henkan[d2+7]  # 全体を使うように
