@@ -31,7 +31,7 @@ import pytz
 # 設定値
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
-henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
+henkan = "lmnpabdefghcxyziqrsjktuvwo" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 Web_title = 'WebRemote v03'
 
 # スイッチの名称変更が可能です。
