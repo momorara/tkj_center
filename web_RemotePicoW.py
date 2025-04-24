@@ -35,7 +35,7 @@ topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
 broker = "broker.hivemq.com"          # 無料mqttブローカー
 henkan = "abcdefghijklmnopqrstuvwxyz" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 # 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
-Web_title = 'WebRemote v24'
+Web_title = 'WebRemote v25'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -48,6 +48,7 @@ sw_name5  = 'SW-5 @ RemotePico'
 # pin_code 日時から作成するコードでpicoW側でも作り、照合する。
 # sec_code webで都度入力するセキュリティコード　picoW側で設定しておいたものと照合する。
 sec_code = "null"
+# 画面上6桁の数字としているが、zを除くアルファベットも使えます。
 """
 Copyright (c) 2025 TKJ_Works
 """
@@ -150,7 +151,7 @@ def mqtt_pub(broker,topic,pin_code):
         sleep(3)
         # 除湿器スタートコマンド送信
         print('publish topic',topic)
-        client.publish(topic,pin_code)
+        client.publish(topic, pin_code, qos=1)
         sleep(1)
         # プローカーの調子が悪くmqttが通らなくてもエラーにならない
         # なので、2個届いてしまう。
