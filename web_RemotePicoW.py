@@ -33,7 +33,7 @@ import pytz
 mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v12'
+Web_title = 'WebRemote v13'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -164,7 +164,6 @@ def mqtt_broker_set(pin_code,mes):
 
     # ここで送信する
     # broker = "broker.hivemq.com"
-    mes = mes + "test"
     mqtt_pub(broker,pin_code,mes)
 
 def input():
@@ -222,7 +221,7 @@ def main():
         # st.write('publish',pin_code,mes)
         st.write('publish',mes)
         #mqtt_broker_set(pin_code,mes)
-        mqtt_broker_set(modified_string + sw, mes)
+        mqtt_broker_set(modified_string + sw + sec_code, mes)
 
     # セキュリティコードは実はダミーです。
     sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
