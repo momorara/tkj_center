@@ -10,7 +10,7 @@
 
 説明、
 スイッチ6個のうち1つが押されると、mqttを送信する
-送信する際のトピックはmesで設定されたもの1つ
+送信する際のトピックはtopicで設定されたもの1つ
 送信内容は、日、時間により暗号化されたものと末尾にスイッチの番号が付与される。
 
 受信側で、復号化して日と時間が一致していれば、正しい信号と考え
@@ -30,10 +30,10 @@ import datetime
 import pytz
 
 # 設定値
-mes = "tkj/remote/2025/sw012345"      # mqttトピックス
+topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v15'
+Web_title = 'WebRemote v16'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -130,7 +130,7 @@ def on_disconnect(client, userdata, flag, rc):
 def on_publish(client, userdata, mid):
   print("publish: {0}".format(mid))
 
-def mqtt_pub(broker,pin_code,mes):
+def mqtt_pub(broker,pin_code,topic):
     try:
         client = mqtt.Client()                 # クラスのインスタンス(実体)の作成
         client.on_connect = on_connect         # 接続時のコールバック関数を登録
@@ -147,24 +147,24 @@ def mqtt_pub(broker,pin_code,mes):
         print('loop_start')
         sleep(3)
         # 除湿器スタートコマンド送信
-        print('publish',mes)
-        client.publish(mes,pin_code)
+        print('publish topic',topic)
+        client.publish(topic,pin_code)
         sleep(1)
         # プローカーの調子が悪くmqttが通らなくてもエラーにならない
         # なので、2個届いてしまう。
     except:
         print('publish error')
 
-def mqtt_broker_set(pin_code,mes):
+def mqtt_broker_set(pin_code,topic):
     # ブローカーが調子の悪い時があるので、切り替えてpubします。
     # なので、調子の良い時には2つのpublishが届くので、注意が必要
     # broker = 'mqtt.eclipseprojects.io' 
-    # mqtt_pub(broker,pin_code,mes)
+    # mqtt_pub(broker,pin_code,topic)
     # broker = 'broker.emqx.io'
 
     # ここで送信する
     # broker = "broker.hivemq.com"
-    mqtt_pub(broker,pin_code,mes)
+    mqtt_pub(broker,pin_code,topic)
 
 def input():
     # webAppの画面を構成
@@ -201,7 +201,7 @@ def main():
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
-    # mes = "tkj/remote/2025/sw012345"
+    # topic = "tkj/remote/2025/sw012345"
     if remote_sw0 == True :
         sw = "0"
     if remote_sw1 == True :
@@ -218,16 +218,16 @@ def main():
     # ボタンが押されていることが送信の条件
     if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
         # ピンコードをmqttでpublishする
-        # st.write('publish',pin_code,mes)
-        st.write('publish',mes)
-        #mqtt_broker_set(pin_code,mes)
+        # st.write('publish',pin_code,topic)
+        st.write('publish',topic)
+        #mqtt_broker_set(pin_code,topic)
         # try:
         #     sec_code_s = str(sec_code)
         # except:
         #     sec_code_s = "err"
-        # mqtt_broker_set(modified_string + sw + sec_code_s, mes)
+        # mqtt_broker_set(modified_string + sw + sec_code_s, topic)
 
-        mqtt_broker_set(modified_string + sw , mes)
+        mqtt_broker_set(modified_string + sw , topic)
 
     # セキュリティコードは実はダミーです。
     sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
