@@ -33,7 +33,7 @@ import pytz
 topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v17'
+Web_title = 'WebRemote v18'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -194,10 +194,13 @@ def main():
     remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5,date1,date2 = input()
     st.write(remote_sw0,remote_sw1,remote_sw2,remote_sw3,remote_sw4,remote_sw5)
 
+    # 暗号を作成する
+    modified_string = encryption()
+
     # 入力した日付からpin_codeを作ります。
-    date1_str = date1.strftime('%Y-%m-%d')[-2:]
-    date2_str = date2.strftime('%Y-%m-%d')[-2:]
-    pin_code = date1_str + date2_str
+    # date1_str = date1.strftime('%Y-%m-%d')[-2:]
+    # date2_str = date2.strftime('%Y-%m-%d')[-2:]
+    # pin_code = date1_str + date2_str
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
