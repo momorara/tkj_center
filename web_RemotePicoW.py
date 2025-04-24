@@ -6,7 +6,6 @@
             pytzを使って補正した
 
 2025/04/21  RemotePicoをWebAppで制御できるように改造
-2025/04/24  ダミーであったセキュリティコードを使うこととする
 
 説明、
 スイッチ6個のうち1つが押されると、mqttを送信する
@@ -34,7 +33,6 @@ mes = "tkj/remote/2025/sw012345"      # mqttトピックス
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 Web_title = 'WebRemote v05'
-pin_code = ""                         # 画面で入力、picoW側に設定しておく
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -162,7 +160,6 @@ def mqtt_broker_set(pin_code,mes):
 
     # ここで送信する
     # broker = "broker.hivemq.com"
-    mes = mes + pin_code
     mqtt_pub(broker,pin_code,mes)
 
 def input():
