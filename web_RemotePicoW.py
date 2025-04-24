@@ -33,7 +33,7 @@ import pytz
 topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v18'
+Web_title = 'WebRemote v19'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -196,11 +196,6 @@ def main():
 
     # 暗号を作成する
     modified_string = encryption()
-
-    # 入力した日付からpin_codeを作ります。
-    # date1_str = date1.strftime('%Y-%m-%d')[-2:]
-    # date2_str = date2.strftime('%Y-%m-%d')[-2:]
-    # pin_code = date1_str + date2_str
             
     # 押されたボタンによって、publish内容を変える。
     sw = 9
@@ -230,11 +225,15 @@ def main():
         #     sec_code_s = "err"
         # mqtt_broker_set(modified_string + sw + sec_code_s, topic)
 
-        mqtt_broker_set(topic,modified_string + sw)
+        # セキュリティコード入力
+        sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
+        st.write("入力内容:",sec_code)
 
-    # セキュリティコードは実はダミーです。
-    sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
-    st.write("入力内容:",sec_code)
+        mqtt_broker_set(topic,modified_string + sw + sec_code)
+
+    # # セキュリティコードは実はダミーです。
+    # sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
+    # st.write("入力内容:",sec_code)
 
     # 表示をリセット
     reset  = st.button('reset')
