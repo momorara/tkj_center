@@ -33,7 +33,7 @@ import pytz
 topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v16'
+Web_title = 'WebRemote v17'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -148,7 +148,7 @@ def mqtt_pub(broker,pin_code,topic):
         sleep(3)
         # 除湿器スタートコマンド送信
         print('publish topic',topic)
-        client.publish(topic,pin_code)
+        client.publish('topic:',topic,' pin_code:',pin_code)
         sleep(1)
         # プローカーの調子が悪くmqttが通らなくてもエラーにならない
         # なので、2個届いてしまう。
