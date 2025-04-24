@@ -33,7 +33,7 @@ import pytz
 topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v20'
+Web_title = 'WebRemote v21'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -219,11 +219,12 @@ def main():
 
     # ボタンが押されていることが送信の条件
     if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
-        # ピンコードをmqttでpublishする
-        # st.write('publish',pin_code,topic)
-        st.write('publish',topic,modified_string , sw , sec_code)
+        # mqttでpublishする
+        # 
 
-        mqtt_broker_set(topic,modified_string + sw + sec_code)
+        st.write('publish',topic,modified_string , sw , sec_code)
+        # mqtt_broker_set(topic,modified_string + sw + sec_code)
+        mqtt_broker_set(topic,modified_string + sw )
 
     # # セキュリティコードは実はダミーです。
     # sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
