@@ -30,10 +30,12 @@ import datetime
 import pytz
 
 # 設定値
-topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
-broker = "broker.hivemq.com"          # mqttブローカー
+topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
+# topicは必ず変更してください。picW側と合わせてください。
+broker = "broker.hivemq.com"          # 無料mqttブローカー
 henkan = "abcdefghijklmnopqrstuvwxyz" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v23'
+# 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
+Web_title = 'WebRemote v24'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -223,11 +225,12 @@ def main():
         # 
 
         st.write('publish',topic,modified_string , sw , sec_code)
-        mqtt_broker_set(topic,modified_string + sw + sec_code)
+        mqtt_broker_set(topic,modified_string + sw + "z" + sec_code)
+        # "z"があるのは、受信側でsec_codeを取り出すためです。
         # mqtt_broker_set(topic,modified_string + sw )
 
     # # セキュリティコードは実はダミーです。
-    # sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
+    # sec_code = st.text_input('セキュリティコードを半角数字6桁で入力してください。')
     # st.write("入力内容:",sec_code)
 
     # 表示をリセット
