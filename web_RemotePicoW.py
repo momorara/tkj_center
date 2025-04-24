@@ -16,7 +16,7 @@
 受信側で、復号化して日と時間が一致していれば、正しい信号と考え
 末尾のスイッチ番号により操作を行う。
 
-mqttの信号は平文で送っているので、同じ内容を送られ妨害されたことがあり 
+mqttの信号は平文で送っているので、同じ内容を送られ妨害されたことがあり
 このようにしている、この対策以降妨害はない模様。
 
 web_RemotePicoW.py
@@ -35,7 +35,7 @@ topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
 broker = "broker.hivemq.com"          # 無料mqttブローカー
 henkan = "abcdefghijklmnopqrstuvwxyz" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 # 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
-Web_title = 'WebRemote v25'
+Web_title = 'WebRemote v26'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -151,7 +151,7 @@ def mqtt_pub(broker,topic,pin_code):
         sleep(3)
         # 除湿器スタートコマンド送信
         print('publish topic',topic)
-        client.publish(topic, pin_code, qos=1)
+        client.publish(topic, pin_code, qos=2)
         sleep(1)
         # プローカーの調子が悪くmqttが通らなくてもエラーにならない
         # なので、2個届いてしまう。
