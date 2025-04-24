@@ -33,7 +33,7 @@ import pytz
 topic = "tkj/remote/2025/sw012345"      # mqttトピックス topic
 broker = "broker.hivemq.com"          # mqttブローカー
 henkan = "tmsgughinowcdgpjatzrefkrwx" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-Web_title = 'WebRemote v16'
+Web_title = 'WebRemote v17'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -130,7 +130,7 @@ def on_disconnect(client, userdata, flag, rc):
 def on_publish(client, userdata, mid):
   print("publish: {0}".format(mid))
 
-def mqtt_pub(broker,pin_code,topic):
+def mqtt_pub(broker,topic,pin_code):
     try:
         client = mqtt.Client()                 # クラスのインスタンス(実体)の作成
         client.on_connect = on_connect         # 接続時のコールバック関数を登録
@@ -155,7 +155,7 @@ def mqtt_pub(broker,pin_code,topic):
     except:
         print('publish error')
 
-def mqtt_broker_set(pin_code,topic):
+def mqtt_broker_set(topic,pin_code):
     # ブローカーが調子の悪い時があるので、切り替えてpubします。
     # なので、調子の良い時には2つのpublishが届くので、注意が必要
     # broker = 'mqtt.eclipseprojects.io' 
@@ -164,7 +164,7 @@ def mqtt_broker_set(pin_code,topic):
 
     # ここで送信する
     # broker = "broker.hivemq.com"
-    mqtt_pub(broker,pin_code,topic)
+    mqtt_pub(broker,topic,pin_code)
 
 def input():
     # webAppの画面を構成
@@ -227,7 +227,7 @@ def main():
         #     sec_code_s = "err"
         # mqtt_broker_set(modified_string + sw + sec_code_s, topic)
 
-        mqtt_broker_set(modified_string + sw , topic)
+        mqtt_broker_set(topic,modified_string + sw)
 
     # セキュリティコードは実はダミーです。
     sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
