@@ -35,7 +35,7 @@ topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
 broker = "broker.hivemq.com"          # 無料mqttブローカー
 henkan = "abcdefghijklmnopqrstuvwxyz" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
 # 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
-Web_title = 'WebRemote v27'
+Web_title = 'WebRemote v28'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
@@ -52,7 +52,6 @@ sec_code = "null"
 """
 Copyright (c) 2025 TKJ_Works
 """
-
 
 # ランダム文字列を作る
 def generate_random_string(length):
@@ -201,7 +200,7 @@ def main():
     modified_string = encryption()
 
     # セキュリティコード入力
-    sec_code = st.text_input('セキュリティコードを6桁で入力してください。')
+    sec_code = st.text_input('セキュリティコードを数字6桁で入力してください。')
     st.write("入力内容:",sec_code)
     
     # 押されたボタンによって、publish内容を変える。
@@ -223,16 +222,10 @@ def main():
     # ボタンが押されていることが送信の条件
     if remote_sw0 == True or remote_sw1 == True or remote_sw2 == True or remote_sw3 == True or remote_sw4 == True or remote_sw5 == True:
         # mqttでpublishする
-        # 
-
         st.write('publish',topic,modified_string , sw , sec_code)
         mqtt_broker_set(topic,modified_string + sw + "z" + sec_code)
         # "z"があるのは、受信側でsec_codeを取り出すためです。
         # mqtt_broker_set(topic,modified_string + sw )
-
-    # # セキュリティコードは実はダミーです。
-    # sec_code = st.text_input('セキュリティコードを半角数字6桁で入力してください。')
-    # st.write("入力内容:",sec_code)
 
     # 表示をリセット
     reset  = st.button('reset')
