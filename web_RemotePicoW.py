@@ -1,26 +1,3 @@
-"""
-2023/09/04  passCordを当日の月日とした、さらにこれを暗号化して送信する。
-            passCodeは月日としようとしたが、一日同じなので、
-            # 時間と日にした
-            ただし、ラズパイ上では日時は合っているが、streamit上では、9時間ずれているので注意
-            pytzを使って補正した
-
-2025/04/21  RemotePicoをWebAppで制御できるように改造
-2025/04/24  セキュリティコードを有効にする
-
-説明、
-スイッチ6個のうち1つが押されると、mqttを送信する
-送信する際のトピックはtopicで設定されたもの1つ
-送信内容は、日、時間により暗号化されたものと末尾にスイッチの番号が付与される。
-
-受信側で、復号化して日と時間が一致していれば、正しい信号と考え
-末尾のスイッチ番号により操作を行う。
-
-mqttの信号は平文で送っているので、同じ内容を送られ妨害されたことがあり
-このようにしている、この対策以降妨害はない模様。
-
-web_RemotePicoW.py
-"""
 import streamlit as st
 import paho.mqtt.client as mqtt     # MQTTのライブラリをインポート
 from time import sleep              # 3秒間のウェイトのために使う
@@ -29,13 +6,16 @@ import string
 import datetime
 import pytz
 
+# シークレット設定
+# 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
+henkan = st.secrets["secret_keys"]["henkan"]
+st.write("APIキー（表示例）: ", henkan)
+
 # 設定値
 topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
 # topicは必ず変更してください。picW側と合わせてください。
 broker = "broker.hivemq.com"          # 無料mqttブローカー
-henkan = "abcdefghijklmnopqrstuvwxyz" # 暗号化コード たまに変えると良いかも 受信側にも同じコードが必要
-# 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
-Web_title = 'WebRemote v28'
+Web_title = 'WebRemote v29'
 
 # スイッチの名称変更が可能です。
 sw_name0  = 'SW-0 @ RemotePico'
