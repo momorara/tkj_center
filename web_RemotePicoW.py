@@ -31,7 +31,6 @@ import datetime
 import pytz
 
 # シークレット設定
-# 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
 henkan = st.secrets["secret_keys"]["henkan"]
 # mqttトピック
 topic = st.secrets["secret_keys"]["topic"]
