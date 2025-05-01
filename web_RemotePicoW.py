@@ -9,7 +9,7 @@ import pytz
 # シークレット設定
 # 暗号化コードは同じアルファベットがあると誤動作します。ユニークにしてください。
 henkan = st.secrets["secret_keys"]["henkan"]
-st.write("APIキー（表示例）: ", henkan)
+st.write("henkanキー: ", henkan)
 
 # 設定値
 topic = "tkj/remote/2025/sw012345"    # mqttトピックス topic
